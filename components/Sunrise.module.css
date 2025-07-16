@@ -1,0 +1,41 @@
+/* Arquivo: components/Sunrise.module.css (ESTADO FINAL E CORRETO) */
+
+.container {
+  position: absolute; /* Posiciona-se em relação ao primeiro pai 'relative' (o nosso 'palco') */
+  inset: 0; /* Atalho para top:0, right:0, bottom:0, left:0 */
+  z-index: 0; /* Coloca na camada de baixo (dentro do nosso palco) */
+  width: 100%;
+  height: 100%;
+  background-image: url('/background.png');
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  overflow: hidden;
+}
+
+.sun {
+  width: 70vw;
+  height: 35vw;
+  background: radial-gradient(
+    ellipse at center bottom,
+    rgba(255, 255, 255, 0.9) 0%,
+    rgba(255, 255, 255, 0.7) 30%,
+    transparent 65%
+  );
+  opacity: 0;
+  transform: translateY(100px) scale(0.5);
+  animation: riseAnimation 7s ease-out forwards;
+}
+
+@keyframes riseAnimation {
+  from {
+    opacity: 0;
+    transform: translateY(100px) scale(0.5);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}

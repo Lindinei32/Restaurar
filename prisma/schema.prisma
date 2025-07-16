@@ -1,0 +1,56 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id    String   @id @default(cuid())
+  email String   @unique
+  name  String?
+  role  UserRole @default(ALUNO)
+}
+
+model Curso {
+  id        String   @id @default(cuid())
+  nome      String
+  slug      String   @unique
+  imagemUrl String?
+  descricao String?  @db.Text
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  modulos   Modulo[]
+}
+
+model Modulo {
+  id        String   @id @default(cuid())
+  nome      String
+  imagemUrl String?
+  ordem     Int
+  curso     Curso    @relation(fields: [cursoId], references: [id], onDelete: Cascade)
+  cursoId   String
+  aulas     Aula[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Aula {
+  id             String   @id @default(cuid())
+  nome           String
+  descricao      String?  @db.Text
+  videoUrl       String
+  ordem          Int
+  duracaoMinutos Int?
+  modulo         Modulo   @relation(fields: [moduloId], references: [id], onDelete: Cascade)
+  moduloId       String
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+}
+
+enum UserRole {
+  ALUNO
+  ADMIN
+}
